@@ -1,12 +1,12 @@
-package com.example.JobApp;
+package com.example.JobApp.controller;
 
+import com.example.JobApp.service.JobService;
 import com.example.JobApp.model.JobPost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -28,7 +28,12 @@ public class JobController {
 
     @PostMapping("handleForm")
     public String handleForm(JobPost jobPost){
+        try{
         service.addJob(jobPost);
+        }catch (Exception e){
+            e.printStackTrace();
+            return "error";
+        }
         return "success";
     }
 
