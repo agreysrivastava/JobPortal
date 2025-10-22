@@ -27,4 +27,8 @@ public class JobService {
      public void deleteJob(int id){
         jobRepo.deleteJob(id);
      }
+
+     public void updateJob(int id, JobPost jobPost) throws Exception {
+        jobRepo.updateJob(id, jobPost);
+     }
 }

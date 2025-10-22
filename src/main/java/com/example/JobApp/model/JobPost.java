@@ -1,8 +1,12 @@
 package com.example.JobApp.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import jakarta.persistence.Entity;
 import lombok.NoArgsConstructor;
@@ -13,6 +17,7 @@ import java.util.List;
 @Entity
 @Table(name = "JobPosts")
 @NoArgsConstructor
+@AllArgsConstructor
 public class JobPost {
     @Id
     private int postId;
@@ -25,11 +30,7 @@ public class JobPost {
     @Column(name = "tech-stack")
     private List<String> postTechStack;
 
-    public JobPost(int postId, String postProfile, String postDesc, int reqExperience, List<String> postTechStack) {
-        this.postId = postId;
-        this.postProfile = postProfile;
-        this.postDesc = postDesc;
-        this.reqExperience = reqExperience;
-        this.postTechStack = postTechStack;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
+    private Company company;
 }

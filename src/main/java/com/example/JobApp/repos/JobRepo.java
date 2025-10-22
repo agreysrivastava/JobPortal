@@ -83,4 +83,28 @@ public class JobRepo {
             log.error("Error while deleting job with id " + id, e);
         }
     }
+
+    public void updateJob(int id, JobPost jobPost) {
+        try(Session session = sessionFactory.openSession()){
+            session.beginTransaction();
+            Query query = session.createQuery("update JobPost set postProfile = :profile, postDesc = :desc, " +
+                    "reqExperience = :exp, postTechStack = :tech, company_id = :company  where postId = :id");
+            query.setParameter("profile", jobPost.getPostProfile());
+            query.setParameter("desc", jobPost.getPostDesc());
+            query.setParameter("exp", jobPost.getReqExperience());
+            query.setParameter("tech", jobPost.getPostTechStack());
+            query.setParameter("company", jobPost.getCompany());
+            query.setParameter("id", id);
+            int result = query.executeUpdate();
+            session.getTransaction().commit();
+            if(result > 0){
+                log.info("Job with id " + id + " updated successfully");
+            } else {
+                log.warn("No job found with id " + id);
+            }
+        }catch (Exception e){
+            log.error("Error while updating job with id " + id, e);
+            throw new RuntimeException(e);
+        }
+    }
 }

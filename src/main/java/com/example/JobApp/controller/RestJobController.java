@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,6 +54,16 @@ public class RestJobController {
     public ResponseEntity<String> deleteJob(@PathVariable int id){
         jobService.deleteJob(id);
         return ResponseEntity.status(HttpStatus.OK).body("Job deleted successfully");
+    }
+
+    @PutMapping("/job/{id}")
+    public ResponseEntity<String> updateJob(@PathVariable int id, @RequestBody JobPost jobPost) {
+        try {
+            jobService.updateJob(id, jobPost);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("Job updated successfully");
     }
 
     @ExceptionHandler(Exception.class)
